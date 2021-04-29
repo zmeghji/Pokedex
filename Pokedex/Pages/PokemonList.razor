@@ -1,6 +1,32 @@
 ﻿@page "/"
 @page "/pokemon"
 
+<div class="row">
+    <div class="offset-4 col-2">
+        @if (CurrentPage > 1)
+        {
+            <button class="btn btn-danger " @onclick="LoadPreviousPage" disabled="@LoadingPreviousPage">
+                @if (LoadingPreviousPage)
+                {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                }
+                Previous
+            </button>
+        }
+    </div>
+    <div class="offset-1 col-2">
+        @if (!OnLastPage())
+        {
+            <button class="btn btn-danger" type="button" @onclick="LoadNextPage" disabled="@LoadingNextPage">
+                @if (LoadingNextPage)
+                {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                }
+                Next
+            </button>
+        }
+    </div>
+</div>
 
 @if (Pokemon.Count == 0)
 {
