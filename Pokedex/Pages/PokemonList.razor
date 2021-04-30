@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="offset-4 col-2">
-        @if (CurrentPage > 1)
+        @if (StateService.CurrentPage > 1)
         {
             <button class="btn btn-danger " @onclick="LoadPreviousPage" disabled="@LoadingPreviousPage">
                 @if (LoadingPreviousPage)

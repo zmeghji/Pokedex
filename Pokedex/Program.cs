@@ -19,6 +19,7 @@ namespace Pokedex
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddSingleton(new PokeApiClient());
+            builder.Services.AddSingleton(new StateService());
 
             await builder.Build().RunAsync();
         }

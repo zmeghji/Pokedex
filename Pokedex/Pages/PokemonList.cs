@@ -12,6 +12,8 @@ namespace Pokedex.Pages
         //This injects the PokeClient from the dependency injection container
         [Inject]
         PokeApiClient PokeClient { get; set; }
+        [Inject]
+        StateService StateService { get; set; }
 
         //This value gets overwritten after the first API call
         int TotalPokemon = 932; 
@@ -19,20 +21,19 @@ namespace Pokedex.Pages
         bool LoadingNextPage = false;
         //Determines whether loading spinner for previous page is displayed
         bool LoadingPreviousPage = false;
-        int CurrentPage = 1;
         //Evaluates whether we're on the last page of Pokemon
-        bool OnLastPage() => (CurrentPage * ItemsPerPage) >= TotalPokemon;
+        bool OnLastPage() => (StateService.CurrentPage * ItemsPerPage) >= TotalPokemon;
 
         private async Task LoadNextPage()
         {
             LoadingNextPage = true;
-            CurrentPage++;
+            StateService.CurrentPage++;
             await LoadPage();
             LoadingNextPage = false;
         }
         private async Task LoadPreviousPage()
         {
-            CurrentPage--;
+            StateService.CurrentPage--;
             await LoadPage();
         }
 
@@ -56,7 +57,7 @@ namespace Pokedex.Pages
         {
             //Get the list of pokemon resources 
             var pageResponse = (await PokeClient.GetNamedResourcePageAsync<PokeApiNet.Pokemon>(
-                ItemsPerPage, (CurrentPage - 1) * ItemsPerPage));
+                ItemsPerPage, (StateService.CurrentPage - 1) * ItemsPerPage));
             TotalPokemon = pageResponse.Count;
 
             //Create a list of tasks for calling getting the details of each pokemon from the list above

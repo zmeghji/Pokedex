@@ -1,0 +1,58 @@
+﻿<!--The page directive here specifies that it takes the PokemonName as a parameter-->
+@page "/pokemon/{PokemonName}"
+
+<!--The onclick attribute here specifies the Method to run in the code-behind file-->
+<button class="btn btn-danger" @onclick="GoBackToListPage">Back</button>
+
+<!--If the data hasn't been loaded yet, we just show a loading spinner-->
+@if (Pokemon == null)
+{
+    <div class="spinner-border text-danger" role="status">
+    </div>
+}
+else
+{
+    <h1>@Pokemon.Name</h1>
+    <!-- display the front and back images of the Pokemon-->
+    <div class="row">
+        <img src="@Pokemon.Sprites.FrontDefault">
+        <img src="@Pokemon.Sprites.BackDefault">
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <!--List the types of the Pokemon-->
+            <strong>Types: </strong>
+            @foreach (var type in Pokemon.Types)
+            {
+                <span class="badge rounded-pill bg-warning">@type.Type.Name</span>
+            }
+            <!--List the stats of the Pokemon-->
+            <strong style="display:block">Stats:</strong>
+            <table class="table">
+                @foreach (var stat in Pokemon.Stats)
+                {
+                    <tr>
+                        <td>@stat.Stat.Name</td>
+                        <td>@stat.BaseStat</td>
+                    </tr>
+                }
+            </table>
+            <!--List the moves of the Pokemon-->
+            <strong style="display:block">Moves:</strong>
+            <ul class="list-group">
+                @foreach (var move in Pokemon.Moves)
+                {
+                    <li class="list-group-item">@move.Move.Name</li>
+                }
+            </ul>
+        </div>
+        <div class="col-6">
+            <!--Display the description of the Pokemon-->
+            <strong>Description:</strong>
+            @foreach (var description in PokemonDescriptions)
+            {
+                <p>@description</p>
+            }
+        </div>
+    </div>
+}
